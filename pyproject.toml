@@ -1,0 +1,46 @@
+[project]
+name = "encrypted-multi-model-intelligence-system"
+version = "0.1.0"
+description = "system that processes encrypted multi-model data (Text + Image) and generate intelligent risk insights."
+requires-python = ">=3.13"
+
+dependencies = [
+    "fastapi",
+    "uvicorn[standard]",
+    "python-multipart",
+    "pydantic",
+    "pydantic-settings",
+    "plotly",
+    "transformers",
+    "nltk",
+    "opencv-python-headless",
+    "Pillow",
+    "scikit-learn",
+    "numpy",
+    "joblib",
+    "pandas",
+    "pymongo",
+    "python-dotenv",
+    "pytest",
+    "pytest-asyncio",
+    "httpx",
+    
+]
+
+[project.optional-dependencies]
+dev = []
+
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py313"
+
+[tool.mypy]
+python_version = "3.13"
+ignore_missing_imports = true
