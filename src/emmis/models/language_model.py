@@ -1,6 +1,7 @@
 import re
 import logging
-from typing import Any, Dict, List
+from datetime import datetime, timezone
+from typing import Any, Dict, List, Optional
 import nltk
 from emmis.config import settings
 from transformers import pipeline as hf_pipeline
@@ -107,3 +108,17 @@ def CallSentimentPipeline(model_name: str) -> hf_pipeline:
     )
     logger.info("Loaded DistilBERT sentiment model.")
     return transformer_pipeline
+
+
+def format_timestamp(iso_str: Optional[str] = None) -> str:
+    if iso_str:
+        try:
+            dt = datetime.fromisoformat(iso_str.replace("Z", "+00:00"))
+            return dt.strftime("%Y-%m-%d  %H:%M:%S UTC")
+        except ValueError:
+            return iso_str
+    return datetime.now(timezone.utc).strftime("%Y-%m-%d  %H:%M:%S UTC")
+
+
+def truncate(text: str, max_length: int = 80) -> str:
+    return text if len(text) <= max_length else text[:max_length] + " …"
