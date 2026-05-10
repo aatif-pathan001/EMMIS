@@ -26,22 +26,19 @@ logger = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    app.state.cipher = Cipher()
+    pipeline = CallSentimentPipeline(model_name=settings.MODEL_NAME)
+    app.state.text_processor = TextProcessor(pipeline)
+    app.state.image_detector = ImageAnomalyDetector()
+    app.state.risk_model = RiskScoringModel()
+    app.state.db_client = MyMongoDBClient(
+        uri=settings.MONGODB_URI,
+        db_name=settings.DATABASE_NAME,
+        collection_name=settings.COLLECTION_NAME,
+    )
+
     try:
-        app.state.cipher = Cipher()
-        pipeline = CallSentimentPipeline(model_name=settings.MODEL_NAME)
-        app.state.text_processor = TextProcessor(pipeline)
-        app.state.image_detector = ImageAnomalyDetector()
-        app.state.risk_model = RiskScoringModel()
-        app.state.db_client = MyMongoDBClient(
-            uri=settings.MONGODB_URI,
-            db_name=settings.DATABASE_NAME,
-            collection_name=settings.COLLECTION_NAME,
-        )
-
         yield
-    except Exception as exc:
-        logger.error(f"Initialization failed: {exc}")
-
     finally:
         logger.info("Shutting down...")
 
