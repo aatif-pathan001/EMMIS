@@ -39,6 +39,17 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.poetry]
+packages = [{include = "emmis", from = "src"}]
+
+[tool.poetry.dependencies]
+torch = {source = "pytorch-cpu"}
+
+[[tool.poetry.source]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+priority = "explicit"
+
 [tool.ruff]
 line-length = 88
 target-version = "py312"
