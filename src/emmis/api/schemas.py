@@ -30,7 +30,6 @@ class AnalysisResponse(BaseModel):
 class RecordListResponse(BaseModel):
     records: List[Dict[str, Any]]
     count: int
-    storage_backend: str
 
 
 class HealthResponse(BaseModel):

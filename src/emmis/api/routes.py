@@ -164,7 +164,6 @@ async def get_records(request: Request, limit: int = 10) -> RecordListResponse:
     return RecordListResponse(
         records=records,
         count=len(records),
-        storage_backend=request.app.state.db_client.storage_type,
     )
 
 
