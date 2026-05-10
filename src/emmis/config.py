@@ -9,6 +9,8 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env")
     MODEL_DIR: str = "model/artifacts"
 
+    MODEL_NAME: str = "distilbert-base-uncased-finetuned-sst-2-english"
+
     XOR_KEY: int = 999
     SHIFT_VALUE: int = 999
     SCRAMBLE_SEED: int = 999
