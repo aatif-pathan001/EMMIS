@@ -18,30 +18,10 @@ class TextProcessor:
     _WEIGHT_SENTIMENT: float = 0.55
     _WEIGHT_KEYWORDS: float = 0.45
 
-    def __init__(self) -> None:
+    def __init__(self, sentiment_pipeline: hf_pipeline) -> None:
         self._transformer_pipeline = None
         self._vader_analyzer = None
-
-    @property
-    def _sentiment_pipeline(self):
-        if self._transformer_pipeline is not None:
-            return self._transformer_pipeline
-
-        try:
-            self._transformer_pipeline = hf_pipeline(
-                "sentiment-analysis",
-                model="distilbert-base-uncased-finetuned-sst-2-english",
-                truncation=True,
-                max_length=512,
-            )
-            logger.info("Loaded DistilBERT sentiment model.")
-        except Exception as exc:
-            logger.warning(
-                "transformers unavailable (%s). Using NLTK VADER fallback.", exc
-            )
-            self._transformer_pipeline = None
-
-        return self._transformer_pipeline
+        self.sentiment_pipeline = sentiment_pipeline
 
     @property
     def _vader(self):
@@ -52,7 +32,7 @@ class TextProcessor:
         return self._vader_analyzer
 
     def analyze_sentiment(self, text: str) -> Dict[str, Any]:
-        pipeline = self._sentiment_pipeline
+        pipeline = self.sentiment_pipeline
         if pipeline is not None:
             result = pipeline(text[:512])[0]
             label: str = result["label"]
@@ -116,3 +96,14 @@ class TextProcessor:
             "entities": entities,
             "nlp_risk_score": nlp_risk_score,
         }
+
+
+def CallSentimentPipeline(model_name: str) -> hf_pipeline:
+    transformer_pipeline = hf_pipeline(
+        "sentiment-analysis",
+        model=model_name,
+        truncation=True,
+        max_length=512,
+    )
+    logger.info("Loaded DistilBERT sentiment model.")
+    return transformer_pipeline
