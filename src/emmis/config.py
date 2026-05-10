@@ -1,14 +1,17 @@
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import Dict, List
 
 
 class Settings(BaseSettings):
     MONGODB_URI: str = ""
+    DATABASE_NAME: str = ""
+    COLLECTION_NAME: str = ""
+    model_config = SettingsConfigDict(env_file=".env")
     MODEL_DIR: str = "model/artifacts"
 
-    XOR_KEY: int = 42
-    SHIFT_VALUE: int = 7
-    SCRAMBLE_SEED: int = 13
+    XOR_KEY: int = 999
+    SHIFT_VALUE: int = 999
+    SCRAMBLE_SEED: int = 999
 
     HIGH_RISK_THRESHOLD: float = 0.65
     MEDIUM_RISK_THRESHOLD: float = 0.35
