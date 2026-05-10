@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     DATABASE_NAME: str = ""
     COLLECTION_NAME: str = ""
     model_config = SettingsConfigDict(env_file=".env")
-    MODEL_DIR: str = "model/artifacts"
+    MODEL_DIR: str = "src/emmis/model/artifacts"
 
     MODEL_NAME: str = "distilbert-base-uncased-finetuned-sst-2-english"
 
@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     SHIFT_VALUE: int = 999
     SCRAMBLE_SEED: int = 999
 
-    HIGH_RISK_THRESHOLD: float = 0.65
+    HIGH_RISK_THRESHOLD: float = 0.6
     MEDIUM_RISK_THRESHOLD: float = 0.35
 
     RISK_KEYWORDS: List[str] = [
